@@ -2,6 +2,7 @@ from operator import imod, methodcaller
 from flask import Flask, request, jsonify
 import mysql.connector
 from mysql.connector import Error
+import pymongo
 
 app = Flask(__name__)
 
@@ -14,17 +15,44 @@ def insert_query():
     # Login Credentials for MYSql server
     host_name = 'localhost'
     user_name = 'root'
-    password = 'haseeb123'
+    password = '<password>'
+
+    # CONNECTING TO MONGODB ATLAS
+    try:
+        client = pymongo.MongoClient("mongodb+srv://<password>:ineuron@cluster0.ex1ru.mongodb.net/?retryWrites=true&w=majority")
+    except Exception as e:
+        print("Error => {e}")
+    db = client.test
 
     if request.method == "POST":
         region = request.json['region']
         manager = request.json['manager']
 
-        print(region)
-        print(manager)
 
+        # CREATING A DATABASE 'dress' and a new collections 'sales' ans 'attribute' in 'dress' db
+        try:
+            database = client['superstore']
+            collection = database['users']
+            collection_attribute = database['users']
+        except Exception as e:
+            print("Error in creating database and collection [dress,sales]")
+            print(f"Error => {e}")
         
 
+        insert_document = {
+            "Region" : region,
+            "Manager" : manager
+        }
+        
+        try:
+            collection.insert_one(insert_document)
+        except print(0):
+            print("Mongo Db Insert Failed......")
+        
+
+
+        
+        # FOR MYSQL
         try:
             connection = mysql.connector.connect(host=host_name, user = user_name, password=password, use_pure=True, auth_plugin='mysql_native_password')
         except Exception as e:
@@ -60,11 +88,43 @@ def insert_query():
 def update_query():
     host_name = 'localhost'
     user_name = 'root'
-    password = 'haseeb123'
+    password = '<password>'
+
+
+    # CONNECTING TO MONGODB ATLAS
+    try:
+        client = pymongo.MongoClient("mongodb+srv://<password>:ineuron@cluster0.ex1ru.mongodb.net/?retryWrites=true&w=majority")
+    except Exception as e:
+        print("Error => {e}")
+    db = client.test
+
 
     if request.method == "POST":
         region = request.json['region']
         manager = request.json['manager']
+
+
+        # CREATING A DATABASE 'dress' and a new collections 'sales' ans 'attribute' in 'dress' db
+        try:
+            database = client['superstore']
+            collection = database['users']
+            collection_attribute = database['users']
+        except Exception as e:
+            print("Error in creating database and collection [dress,sales]")
+            print(f"Error => {e}")
+
+        # Condition on which document is UPDATED
+        filter = { 'Manager': manager }
+ 
+        # Values to be updated.
+        newvalues = { "$set": { 'Region': region } }
+        
+        # Using update_one() method for single updation.
+        try:
+            collection.update_one(filter, newvalues)
+        except Exception as e:
+            print("Exception => ", e)
+        
 
         try:
             connection = mysql.connector.connect(host=host_name, user = user_name, password=password, use_pure=True, auth_plugin='mysql_native_password')
@@ -96,11 +156,40 @@ def update_query():
 def delete_query():
     host_name = 'localhost'
     user_name = 'root'
-    password = 'haseeb123'
+    password = '<password>'
+
+
+    # CONNECTING TO MONGODB ATLAS
+    try:
+        client = pymongo.MongoClient("mongodb+srv://<password>:ineuron@cluster0.ex1ru.mongodb.net/?retryWrites=true&w=majority")
+    except Exception as e:
+        print("Error => {e}")
+    db = client.test
 
     if request.method == "POST":
         region = request.json['region']
         manager = request.json['manager']
+
+
+        # CREATING A DATABASE 'dress' and a new collections 'sales' ans 'attribute' in 'dress' db
+        try:
+            database = client['superstore']
+            collection = database['users']
+            collection_attribute = database['users']
+        except Exception as e:
+            print("Error in creating database and collection [dress,sales]")
+            print(f"Error => {e}")
+
+        # Condition on which document is DELETED
+        filter = { 'Region': region }
+
+        
+        # Using update_one() method for single updation.
+        try:
+            collection.delete_one(filter)
+        except Exception as e:
+            print("Exception => ", e)
+
 
         try:
             connection = mysql.connector.connect(host=host_name, user = user_name, password=password, use_pure=True, auth_plugin='mysql_native_password')
