@@ -1,4 +1,3 @@
-from operator import imod, methodcaller
 from flask import Flask, request, jsonify
 import mysql.connector
 from mysql.connector import Error
