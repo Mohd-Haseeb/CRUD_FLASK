@@ -9,6 +9,33 @@ app = Flask(__name__)
 def home():
     return "Welcome to HOME page !!!"
 
+@app.route('/details')
+def read_data():
+    # Login Credentials for MYSql server
+    host_name = 'localhost'
+    user_name = 'root'
+    password = '<password>'
+
+    db_name = request.args.get('db')
+    table = request.args.get('table')
+
+    # FOR MYSQL
+    try:
+        connection = mysql.connector.connect(host=host_name, user = user_name, password=password, use_pure=True, auth_plugin='mysql_native_password')
+    except Exception as e:
+        print(f"Exception => {e}")
+    
+    cursor = connection.cursor()
+
+    cursor.execute(f'select * from `{db_name}`.{table}')
+
+    ans = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    return jsonify(ans)
+
 @app.route('/insert', methods=['GET','POST'])
 def insert_query():
     # Login Credentials for MYSql server

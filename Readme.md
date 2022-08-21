@@ -22,14 +22,19 @@
     - This api recieves data required to updaet form the body.
     - Flask application is connected to MYSQL and MONGODB using **MYSQL.CONNECTOR** and **PYMONGO**
     - Values are updated in both the databases (SQL and NOSQL) conditioned on value of "Manager"
-2. '/insert' (POST)
+3. '/insert' (POST)
     - Insert Route.
     - This api recieves data required to updaet form the body.
     - Flask application is connected to MYSQL and MONGODB using **MYSQL.CONNECTOR** and **PYMONGO**
     - Values are inseretd in both the databases (SQL and NOSQL)
-2. '/update' (POST)
+4. '/update' (POST)
     - update Route.
     - This api recieves data required to updaet form the body.
     - Flask application is connected to MYSQL and MONGODB using **MYSQL.CONNECTOR** and **PYMONGO**
     - Values are updated in both the databases (SQL and NOSQL)conditioned on value of "REGION"
+5. '/details' (GET)
+    - read db data Route.
+    - This api recieves data required to updaet form the query parameters (db and table).
+    - Flask application is connected to MYSQL and the params sent by the end point is held by the code using `request.args.get('<param name>')`
+    - By using these values we fetch the table data and return in JSON format back to the server.
 
