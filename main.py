@@ -28,7 +28,7 @@ def insert_query():
         manager = request.json['manager']
 
 
-        # CREATING A DATABASE 'dress' and a new collections 'sales' ans 'attribute' in 'dress' db
+        # Connecting to mongodb database
         try:
             database = client['superstore']
             collection = database['users']
@@ -103,7 +103,7 @@ def update_query():
         manager = request.json['manager']
 
 
-        # CREATING A DATABASE 'dress' and a new collections 'sales' ans 'attribute' in 'dress' db
+        #  Connecting to mongodb database
         try:
             database = client['superstore']
             collection = database['users']
@@ -170,7 +170,7 @@ def delete_query():
         manager = request.json['manager']
 
 
-        # CREATING A DATABASE 'dress' and a new collections 'sales' ans 'attribute' in 'dress' db
+        # Connecting to mongodb database
         try:
             database = client['superstore']
             collection = database['users']
